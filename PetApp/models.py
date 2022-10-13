@@ -6,6 +6,18 @@ class SiteUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
+class Seller(models.Model):
+    name = models.CharField(max_length=50, unique=True, default='NoName')
+    seller_rating = models.FloatField(default=0.0)
+    contacts = models.TextField(default='The seller did not specify his contacts')
+
+    def update_rating(self):
+        self.seller_rating = 0
+        for order in Order.objects.filter(seller_id=self.name):
+            self.seller_rating += order.order_rating
+        self.save()
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True, default='NoName')
 
@@ -28,23 +40,6 @@ class Goods(models.Model):
         self.like(-1)
 
 
-class Seller(models.Model):
-    name = models.CharField(max_length=50, unique=True, default='NoName')
-    seller_rating = models.FloatField(default=0.0)
-    contacts = models.TextField(default='The seller did not specify his contacts')
-
-    def update_rating(self):
-        self.seller_rating = 0
-        for order in Order.objects.filter(seller_id=self.name):
-            self.seller_rating += order.order_rating
-        self.save()
-
-
-class Review(models.Model):
-    datetime_creation = models.DateTimeField(auto_now_add=True)
-    text = models.TextField(default='No Text')
-
-
 class Order(models.Model):
     time_in = models.DateTimeField(auto_now_add=True)
     time_out = models.DateTimeField(null=True)
@@ -63,6 +58,14 @@ class Order(models.Model):
         self.like(-1)
 
 
+class Review(models.Model):
+    datetime_creation = models.DateTimeField(auto_now_add=True)
+    product = models.ManyToManyField(Goods, through='GoodsReview')
+    user = models.ManyToManyField(SiteUser, through='SiteUserReview')
+    order = models.ManyToManyField(Order, through='OrderReview')
+    text = models.TextField(default='No Text')
+
+
 class GoodsOrder(models.Model):
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -72,3 +75,18 @@ class GoodsOrder(models.Model):
 class GoodsCategory(models.Model):
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+
+class GoodsReview(models.Model):
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+
+
+class SiteUserReview(models.Model):
+    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+
+
+class OrderReview(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
