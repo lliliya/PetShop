@@ -41,6 +41,7 @@ class Goods(models.Model):
 
 
 class Order(models.Model):
+    client = models.ManyToManyField(SiteUser, through='OrderSiteUser')
     time_in = models.DateTimeField(auto_now_add=True)
     time_out = models.DateTimeField(null=True)
     cost = models.FloatField(default=0.00)
@@ -90,3 +91,8 @@ class SiteUserReview(models.Model):
 class OrderReview(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
+
+
+class OrderSiteUser(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    client = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
