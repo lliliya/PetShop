@@ -2,6 +2,10 @@ from django.views.generic import ListView
 from .models import Seller, Goods, Category, Order, Review
 
 
+class IndexList(ListView):
+    template_name = 'index.html'
+
+
 class SellerList(ListView):
     model = Seller
     ordering = 'name'
@@ -12,7 +16,7 @@ class SellerList(ListView):
 class GoodsList(ListView):
     model = Goods
     ordering = 'name'
-    template_name = 'goods.html'
+    template_name = 'flatpages/goods.html'
     context_object_name = 'goods'
 
 
