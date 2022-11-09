@@ -43,7 +43,7 @@ class Product(models.Model):
         self.like(-1)
 
     def __str__(self):
-        return f'{self.name.title()}  : {self.description[:20]}'
+        return f'{self.name.title()}  : {self.description[:50]}'
 
 
 class Order(models.Model):

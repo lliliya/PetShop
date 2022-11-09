@@ -4,21 +4,27 @@
 <h1>All products:</h1>
 <hr>
 {% if products %}
-<table>
+<table class="table">
+    <thead>
     <tr>
-        <td> Name </td>
-        <td> Category </td>
-        <td> Price </td>
-        <td> Weight </td>
+        <th> Name </th>
+        <th> Category </th>
+        <th> Description </th>
+        <th> Price </th>
+        <th> Weight </th>
     </tr>
+    </thead>
+    <tbody>
     {% for product in products %}
     <tr>
         <td> {{ product.name }} </td>
         <td> {{ product.category.name }} </td>
+        <td> {{ product.description|truncatewords:20 }} </td>
         <td> {{ product.price }} </td>
         <td> {{ product.weight }} </td>
     </tr>
     {% endfor %}
+    </tbody>
 </table>
 {% else %}
 <h2>No products!</h2>

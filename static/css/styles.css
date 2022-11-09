@@ -51,3 +51,20 @@ h1 {
     text-shadow: 2px 2px #D2B48C;
     font-size: xx-large;
 }
+
+.table {
+	width: 100%;
+	margin-bottom: 20px;
+	border: 1px solid #77844e;
+	border-collapse: collapse;
+}
+.table th {
+	font-weight: bold;
+	padding: 5px;
+	background: #d1d1aa;
+	border: 1px solid #77844e;
+}
+.table td {
+	border: 1px solid #77844e;
+	padding: 5px;
+}

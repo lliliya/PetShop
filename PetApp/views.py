@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Seller, Product, Category, Order, Review
 
 
@@ -39,3 +39,9 @@ class ReviewList(ListView):
     ordering = 'user'
     template_name = 'reviews.html'
     context_object_name = 'reviews'
+
+
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'product.html'
+    context_object_name = 'product'
