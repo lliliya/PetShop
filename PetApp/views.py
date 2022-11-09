@@ -1,5 +1,5 @@
 from django.views.generic import ListView
-from .models import Seller, Goods, Category, Order, Review
+from .models import Seller, Product, Category, Order, Review
 
 
 class IndexList(ListView):
@@ -13,11 +13,11 @@ class SellerList(ListView):
     context_object_name = 'sellers'
 
 
-class GoodsList(ListView):
-    model = Goods
+class ProductsList(ListView):
+    model = Product
     ordering = 'name'
-    template_name = 'flatpages/goods.html'
-    context_object_name = 'goods'
+    template_name = 'products.html'
+    context_object_name = 'products'
 
 
 class CategoryList(ListView):

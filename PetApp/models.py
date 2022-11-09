@@ -21,15 +21,18 @@ class Seller(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True, default='NoName')
 
+    def __str__(self):
+        return self.name.title()
 
-class Goods(models.Model):
+
+class Product(models.Model):
     vendor_code = models.IntegerField(default=0)
     name = models.CharField(max_length=50, default='NoName')
     price = models.FloatField(default=0.00)
     weight = models.FloatField(default=0.00)
     description = models.TextField(default='Description not specified')
     composition = models.TextField(default='Сomposition not specified')
-    category = models.ManyToManyField(Category, through='GoodsCategory')
+    category = models.ForeignKey(to='Category', on_delete=models.CASCADE, related_name='products')
     product_rating = models.IntegerField(default=0)
 
     def like(self, amount=0):
@@ -38,6 +41,9 @@ class Goods(models.Model):
 
     def dislike(self):
         self.like(-1)
+
+    def __str__(self):
+        return f'{self.name.title()}  : {self.description[:20]}'
 
 
 class Order(models.Model):
@@ -48,7 +54,7 @@ class Order(models.Model):
     pickup = models.BooleanField(default=False)  # if pickup, then True, if delivery, then False
     complete = models.BooleanField(default=False)
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
-    goods = models.ManyToManyField(Goods, through='GoodsOrder')
+    product = models.ManyToManyField(Product, through='ProductOrder')
     order_rating = models.IntegerField(default=0)
 
     def like(self, amount=0):
@@ -61,25 +67,20 @@ class Order(models.Model):
 
 class Review(models.Model):
     datetime_creation = models.DateTimeField(auto_now_add=True)
-    product = models.ManyToManyField(Goods, through='GoodsReview')
+    product = models.ManyToManyField(Product, through='ProductReview')
     user = models.ManyToManyField(SiteUser, through='SiteUserReview')
     order = models.ManyToManyField(Order, through='OrderReview')
     text = models.TextField(default='No Text')
 
 
-class GoodsOrder(models.Model):
-    goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
+class ProductOrder(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     amount = models.IntegerField(default=1)
 
 
-class GoodsCategory(models.Model):
-    goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
-
-class GoodsReview(models.Model):
-    goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
+class ProductReview(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
 
 
