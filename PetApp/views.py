@@ -6,7 +6,7 @@ class IndexList(ListView):
     template_name = 'index.html'
 
 
-class SellerList(ListView):
+class SellersList(ListView):
     model = Seller
     ordering = 'name'
     template_name = 'sellers.html'
@@ -34,7 +34,7 @@ class OrderList(ListView):
     context_object_name = 'orders'
 
 
-class ReviewList(ListView):
+class ReviewsList(ListView):
     model = Review
     ordering = 'user'
     template_name = 'reviews.html'
@@ -45,3 +45,15 @@ class ProductDetail(DetailView):
     model = Product
     template_name = 'product.html'
     context_object_name = 'product'
+
+
+class SellerDetail(DetailView):
+    model = Seller
+    template_name = 'seller.html'
+    context_object_name = 'seller'
+
+
+class ReviewDetail(DetailView):
+    model = Review
+    template_name = 'review.html'
+    context_object_name = 'review'

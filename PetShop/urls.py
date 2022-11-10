@@ -22,4 +22,8 @@ urlpatterns = [
     path('pages/', include('django.contrib.flatpages.urls')),
     path('products/', include('PetApp.urls')),
     path('products/<int:pk>', include('PetApp.urls')),
+    path('sellers/', include('PetApp.urls')),
+    path('sellers/<int:pk>', include('PetApp.urls')),
+    path('reviews/', include('PetApp.urls')),
+    path('reviews/<int:pk>', include('PetApp.urls')),
 ]

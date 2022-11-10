@@ -17,6 +17,9 @@ class Seller(models.Model):
             self.seller_rating += order.order_rating
         self.save()
 
+    def __str__(self):
+        return self.name.title()
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True, default='NoName')
@@ -34,6 +37,7 @@ class Product(models.Model):
     composition = models.TextField(default='Сomposition not specified')
     category = models.ForeignKey(to='Category', on_delete=models.CASCADE, related_name='products')
     product_rating = models.IntegerField(default=0)
+    seller = models.ForeignKey(to='Seller', on_delete=models.CASCADE, related_name='products')
 
     def like(self, amount=0):
         self.product_rating += amount

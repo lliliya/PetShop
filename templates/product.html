@@ -1,6 +1,8 @@
-{% include 'flatpages/index.html' %}
+{% include '../index.html' %}
 
 {% block content %}
 <h1>{{ product }}</h1>
+<button><a href="/reviews/">All reviews</a></button>
+<h2>{{ reviews }}</h2>
 {% endblock content %}
 <hr>
